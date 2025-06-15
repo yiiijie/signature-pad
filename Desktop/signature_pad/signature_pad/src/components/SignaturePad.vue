@@ -1,28 +1,8 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref } from 'vue'
 import { VueSignaturePad } from 'vue-signature-pad'
 
 const signaturePad = ref(null)
-const isDarkMode = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
-
-const penColor = computed(() => (isDarkMode.value ? '#ffffff' : '#000000'))
-
-// 監聽系統顏色模式並更新筆畫顏色
-const updatePenColor = () => {
-  isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches
-  // console.log('系統顏色模式變更：', isDarkMode.value ? '深色' : '淺色')
-  // console.log('當前筆畫顏色：', penColor.value)
-}
-
-onMounted(() => {
-  updatePenColor()
-
-  // 監聽系統顏色模式變化
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-  mediaQuery.addEventListener('change', () => {
-    updatePenColor()
-  })
-})
 
 const undo = () => {
   signaturePad.value?.undoSignature()
@@ -53,9 +33,13 @@ const save = () => {
     <VueSignaturePad
       height="500px"
       ref="signaturePad"
-      :customStyle="{ border: '1px solid #ccc', borderRadius: '8px' }"
+      :customStyle="{
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        backgroundColor: '#ffffff',
+      }"
       :options="{
-        penColor: penColor,
+        penColor: '#000000',
       }"
     />
     <div class="button_wrapper">
